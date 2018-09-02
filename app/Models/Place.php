@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @property int $id
  * @property string $address
- * @property float $lng
  * @property float $lat
+ * @property float $lng
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Place whereAddress($value)
@@ -22,10 +22,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Place whereLng($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Place whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property float $long
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Place whereLong($value)
  */
 class Place extends Model
 {
-    //
+    public const ID = 'id';
+    public const ADDRESS = 'address';
+    public const LATITUDE = 'lat';
+    public const LONGITUDE = 'lng';
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = 'updated_at';
 }

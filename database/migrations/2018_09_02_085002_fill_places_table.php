@@ -22,10 +22,10 @@ class FillPlacesTable extends Migration
         $preparedAreas = [];
         foreach ($rawAreas as $k => $v) {
             $preparedAreas[] = [
-                'address'    => $k,
-                'lat'        => $v['lat'],
-                'long'       => $v['long'],
-                'created_at' => date('Y-m-d H:i:s'),
+                Place::ADDRESS    => $k,
+                Place::LATITUDE   => $v['lat'],
+                Place::LONGITUDE  => $v['long'],
+                Place::CREATED_AT => date('Y-m-d H:i:s'),
             ];
         }
 

@@ -12,18 +12,27 @@
 
 <div class="container">
     <ul class="nav justify-content-center">
+        <?php
+        $routes = [
+            'places.index'  => 'List of Places',
+            'places.create' => 'Create new Place',
+        ];
+        ?>
+
+        <?php foreach ($routes as $route => $text): ?>
+
+        <?php
+        $url = substr(route($route, [], false), 1);
+        ?>
+
         <li class="nav-item">
-            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link {{ Request::is($url) ? 'active' : '' }}"
+               href="{{ $route }}">
+                {{ $text }}
+            </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
+
+        <?php endforeach; ?>
     </ul>
 
     @yield('content')
