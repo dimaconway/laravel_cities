@@ -16,4 +16,6 @@ Route::get('/', function () {
     return redirect()->route('places.index');
 });
 
-Route::resource('places', 'PlacesController');
+Route::resource('places', 'PlacesController', [
+    'except' => ['show']
+]);

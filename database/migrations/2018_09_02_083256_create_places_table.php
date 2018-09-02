@@ -11,25 +11,17 @@ use Illuminate\Database\Migrations\Migration;
 class CreatePlacesTable extends Migration
 {
     /**
-     * @return string
-     */
-    private function getTableName(): string
-    {
-        return (new Place)->getTable();
-    }
-
-    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up(): void
     {
-        \Schema::create($this->getTableName(), function (Blueprint $table) {
+        \Schema::create(Place::getTableName(), function (Blueprint $table) {
             $table->increments(Place::ID);
             $table->string(Place::ADDRESS);
-            $table->decimal(Place::LATITUDE, 10, 7);
-            $table->decimal(Place::LONGITUDE, 10, 7);
+            $table->decimal(Place::LATITUDE, 9, 6);
+            $table->decimal(Place::LONGITUDE, 9, 6);
             $table->timestamps();
         });
     }
@@ -41,6 +33,6 @@ class CreatePlacesTable extends Migration
      */
     public function down(): void
     {
-        \Schema::dropIfExists($this->getTableName());
+        \Schema::dropIfExists(Place::getTableName());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Place;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
@@ -16,19 +17,53 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PlacesController extends Controller
 {
+    /** @var int */
+    private const PER_PAGE = 9;
+
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @param Request $request
+     *
+     * @return View|Response
      */
-    public function index(): View
+    public function index(Request $request)
     {
-        $places = \DB::table((new Place)->getTable())
-            ->orderByDesc(Place::ID)->paginate(10);
+        if ($request->has(Place::ADDRESS)) {
+            return $this->processFilterRequest($request);
+        }
 
-        return view('places.index', [
-            'places' => $places,
-        ]);
+        $places = (new Place)->orderByDesc(Place::ID)
+            ->paginate(self::PER_PAGE);
+
+        return view('places.index', ['places' => $places]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Response|View
+     */
+    private function processFilterRequest(Request $request)
+    {
+        /** @noinspection BadExceptionsProcessingInspection */
+        try {
+            $placeFromFilter = Place::whereAddress($request->get(Place::ADDRESS))->firstOrFail();
+
+            $places = Place::getOrderedByDistanceToPlace($placeFromFilter)
+                ->paginate(self::PER_PAGE);
+
+            return view('places.index', [
+                'placeFromFilter' => $placeFromFilter,
+                'places'          => $places->appends($request->except('page')),
+            ]);
+        } /** @noinspection BadExceptionsProcessingInspection */
+        catch (ModelNotFoundException $e) {
+            return redirect()->route('places.index')
+                ->withErrors([
+                    'message' => 'No such Place with address ' . $request->get(Place::ADDRESS),
+                ]);
+        }
     }
 
     /**
@@ -57,18 +92,6 @@ class PlacesController extends Controller
         $place->save();
 
         return redirect()->route('places.index')->with('success', 'New Place has been added');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
