@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Place;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PlacesController
@@ -102,10 +101,18 @@ class PlacesController extends Controller
      *
      * @param  int $id
      *
-     * @return Response
+     * @return string
      */
-    public function destroy($id)
+    public function destroy($id): string
     {
-        //
+        $place = (new Place)->find($id);
+        try {
+            $place->delete();
+        } catch (\Exception $e) {
+            return 'Error while deleting Place ' . $place->address . ':' . PHP_EOL
+                . $e->getMessage();
+        }
+
+        return 'Place ' . $place->address . ' has been deleted';
     }
 }

@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
     <title>Cities - @yield('title')</title>
 </head>
@@ -22,12 +24,12 @@
         <?php foreach ($routes as $route => $text): ?>
 
         <?php
-        $url = substr(route($route, [], false), 1);
+        $url = route($route, [], false);
         ?>
 
         <li class="nav-item">
-            <a class="nav-link {{ Request::is($url) ? 'active' : '' }}"
-               href="{{ $route }}">
+            <a class="nav-link {{ Request::is(substr($url, 1)) ? 'active' : '' }}"
+               href="{{ $url }}">
                 {{ $text }}
             </a>
         </li>
@@ -37,7 +39,5 @@
 
     @yield('content')
 </div>
-
-<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
