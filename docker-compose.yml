@@ -1,0 +1,44 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+    image: app:latest
+    networks:
+    - appnet
+    volumes:
+    - .:/var/www/html
+    ports:
+    - ${APP_PORT:-80}:80
+    working_dir: /var/www/html
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-secret}
+      MYSQL_DATABASE: ${DB_DATABASE:-homestead}
+      MYSQL_USER: ${DB_USERNAME:-homestead}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    ports:
+    - ${DB_PORT:-3306}:3306
+    networks:
+    - appnet
+    volumes:
+    - dbdata:/var/lib/mysql
+  node:
+    build:
+      context: ./docker/node
+      dockerfile: Dockerfile
+    image: node:latest
+    networks:
+    - appnet
+    volumes:
+    - .:/opt
+    working_dir: /opt
+    command: echo hi
+networks:
+  appnet:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local
