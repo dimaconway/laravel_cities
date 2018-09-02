@@ -3,6 +3,7 @@
 
 @section('content')
     <?php $requestKey = \App\Models\Place::ADDRESS ?>
+
     @foreach ($errors->all() as $error)
         <div class='alert alert-danger' role='alert'>
             {{ $error }}
@@ -12,15 +13,15 @@
     <div class='filter'>
         <form method='GET'>
             <div class="input-group mb-3">
-                <input type="text"
-                       class="form-control"
-                       id="address"
-                       name="{{ $requestKey }}"
-                       placeholder="Enter address"
-                       value='{{ Request::get($requestKey) }}'>
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
+                <select name='{{ $requestKey }}' id='addresses' class="custom-select">
+                    <option value="" selected disabled hidden>Choose address</option>
+                    @foreach($addressessForFilter as $item)
+                        <option value='{{ $item->address }}'
+                                {{ Request::get($requestKey) === $item->address ? 'selected' : '' }}>
+                            {{ $item->address }}
+                        </option>
+                    @endforeach;
+                </select>
             </div>
         </form>
     </div>
@@ -35,6 +36,11 @@
 
     <script>
         $(document).ready(function () {
+            $('#addresses').on('change', function () {
+                let $form = $(this).closest('form');
+                $form.submit();
+            });
+
             $('button.delete-place').click(function (e) {
                 let url = $(e.target).closest('.delete-place').data('url');
 
@@ -49,7 +55,7 @@
                 }).fail(function () {
                     alert('Something went wrong');
                 });
-            })
+            });
         })
     </script>
 @endsection

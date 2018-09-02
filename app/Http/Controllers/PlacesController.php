@@ -33,10 +33,13 @@ class PlacesController extends Controller
             return $this->processFilterRequest($request);
         }
 
-        $places = (new Place)->orderByDesc(Place::ID)
+        $places = (new Place)->orderBy(Place::ADDRESS)
             ->paginate(self::PER_PAGE);
 
-        return view('places.index', ['places' => $places]);
+        return view('places.index', [
+            'places'              => $places,
+            'addressessForFilter' => Place::getAddressesForFilter(),
+        ]);
     }
 
     /**
@@ -54,8 +57,9 @@ class PlacesController extends Controller
                 ->paginate(self::PER_PAGE);
 
             return view('places.index', [
-                'placeFromFilter' => $placeFromFilter,
-                'places'          => $places->appends($request->except('page')),
+                'placeFromFilter'     => $placeFromFilter,
+                'places'              => $places->appends($request->except('page')),
+                'addressessForFilter' => Place::getAddressesForFilter(),
             ]);
         } /** @noinspection BadExceptionsProcessingInspection */
         catch (ModelNotFoundException $e) {

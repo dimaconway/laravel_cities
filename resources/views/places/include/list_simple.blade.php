@@ -5,7 +5,7 @@
         <th scope="col">Address</th>
         <th scope="col">Latitude</th>
         <th scope="col">Longitude</th>
-        <th scope="col">Actions</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>

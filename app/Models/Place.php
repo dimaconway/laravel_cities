@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Class Place
@@ -86,5 +87,13 @@ ORDER_BY;
                 + cos($thatLat) * cos($thisLat) * cos($thatLng - $thisLng)
             ),
             2);
+    }
+
+    /**
+     * @return Collection
+     */
+    public static function getAddressesForFilter(): Collection
+    {
+        return (new self)->select(self::ADDRESS)->orderBy(self::ADDRESS)->get();
     }
 }

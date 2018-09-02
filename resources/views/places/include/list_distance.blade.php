@@ -4,7 +4,7 @@
         <th scope="col">#</th>
         <th scope="col">Address</th>
         <th scope="col">Distance, kms</th>
-        <th scope="col">Actions</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
