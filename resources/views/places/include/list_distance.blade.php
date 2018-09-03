@@ -2,11 +2,7 @@
     <thead>
     <tr>
         <th>#</th>
-        <td>
-            <a href='{{ route('places.show', ['place' => $place->id]) }}'>
-                {{ $place->address }}
-            </a>
-        </td>
+        <td>Address</td>
         <th>Distance, kms</th>
         <th></th>
     </tr>
@@ -16,7 +12,11 @@
     @foreach ($places as $place)
         <tr>
             <th scope="row">{{ $place->id }}</th>
-            <td>{{ $place->address }}</td>
+            <td>
+                <a href='{{ route('places.show', ['place' => $place->id]) }}'>
+                    {{ $place->address }}
+                </a>
+            </td>
             <td>{{ $place->getDistanceTo($placeFromFilter) }}</td>
             <td>
                 <button type="button"
