@@ -39,9 +39,9 @@
                    value='{{ $place->lng }}'>
         </div>
 
-        <div id="map"></div>
+        <button id='submit-button' type="submit" class="btn btn-primary btn-block mb-3" disabled>Save</button>
 
-        <button id='submit-button' type="submit" class="btn btn-primary btn-block" disabled>Create</button>
+        <div id="map"></div>
     </form>
 
     <script type="text/javascript" src="{{ asset('js/map.js') }}"></script>
