@@ -137,8 +137,8 @@ module.exports = __webpack_require__(38);
                         position: cityOptions.center
                     });
 
-                    $('#latitude').val(cityOptions.center.lat);
-                    $('#longitude').val(cityOptions.center.lng);
+                    $('#latitude').val(Number(cityOptions.center.lat().toFixed(6)));
+                    $('#longitude').val(Number(cityOptions.center.lng().toFixed(6)));
 
                     $('#submit-button').prop("disabled", false);
                 } else {
