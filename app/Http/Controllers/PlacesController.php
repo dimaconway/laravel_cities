@@ -95,9 +95,23 @@ class PlacesController extends Controller
         $place->lng = $request->post(Place::LONGITUDE);
         $place->save();
 
-        return redirect()
-            ->route('places.index')
-            ->with('success', 'New Place ' . $place->address . ' has been added');
+        return redirect()->route('places.show', [
+            'place' => $place,
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     *
+     * @return View
+     */
+    public function show(int $id): View
+    {
+        return view('places.show', [
+            'place' => (new Place)->find($id),
+        ]);
     }
 
     /**
@@ -130,9 +144,9 @@ class PlacesController extends Controller
         $place->lng = $request->input(Place::LONGITUDE);
         $place->save();
 
-        return redirect()
-            ->route('places.index')
-            ->with('success', 'Place ' . $place->address . ' has been updated');
+        return redirect()->route('places.show', [
+            'place' => $place,
+        ]);
     }
 
     /**

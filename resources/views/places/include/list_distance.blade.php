@@ -3,7 +3,7 @@
     <tr>
         <th>#</th>
         <td>
-            <a href='{{ route('places.edit', ['place' => $place->id]) }}'>
+            <a href='{{ route('places.show', ['place' => $place->id]) }}'>
                 {{ $place->address }}
             </a>
         </td>
