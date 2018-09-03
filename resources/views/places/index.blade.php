@@ -4,6 +4,12 @@
 @section('content')
     <?php $requestKey = \App\Models\Place::ADDRESS ?>
 
+    @if (session()->has('success'))
+        <div class="alert alert-success" role='alert'>
+            {{ session()->get('success') }}
+        </div>
+    @endif
+
     @foreach ($errors->all() as $error)
         <div class='alert alert-danger' role='alert'>
             {{ $error }}

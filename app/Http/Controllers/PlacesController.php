@@ -95,7 +95,9 @@ class PlacesController extends Controller
         $place->lng = $request->post(Place::LONGITUDE);
         $place->save();
 
-        return redirect()->route('places.index')->with('success', 'New Place has been added');
+        return redirect()
+            ->route('places.index')
+            ->with('success', 'New Place ' . $place->address . ' has been added');
     }
 
     /**

@@ -5,44 +5,43 @@
     <form method='POST' action='{{ route('places.store') }}'>
         @csrf
 
-        <div class="form-group">
-            <label for="address">Address</label>
+        <div class="input-group mb-3">
             <input type="text"
                    class="form-control"
                    id="address"
                    name="{{ \App\Models\Place::ADDRESS }}"
                    placeholder="Enter address">
+            <div class="input-group-append">
+                <button id='search-for-address' class="btn btn-primary">Search</button>
+            </div>
         </div>
 
-        <input type="hidden" id="latitude" name="{{ \App\Models\Place::LATITUDE }}">
-        <input type="hidden" id="longitude" name="{{ \App\Models\Place::LONGITUDE }}">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-secondary text-white">Latitude</span>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   id="latitude"
+                   name="{{ \App\Models\Place::LATITUDE }}"
+                   readonly>
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-secondary text-white">Longtidue</span>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   id="longitude"
+                   name="{{ \App\Models\Place::LONGITUDE }}"
+                   readonly>
+        </div>
 
         <div id="map"></div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button id='submit-button' type="submit" class="btn btn-primary btn-block" disabled>Create</button>
     </form>
 
-    <script>
-        // Initialize and add the map
-        function initMap() {
-            // The location of Uluru
-            let uluru = {lat: -25.344, lng: 131.036};
-            // The map, centered at Uluru
-            let map = new google.maps.Map(
-                document.getElementById('map'),
-                {
-                    zoom: 4,
-                    center: uluru
-                }
-            );
-            // The marker, positioned at Uluru
-            let marker = new google.maps.Marker({
-                position: uluru,
-                map: map
-            });
-        }
-    </script>
+    <script type="text/javascript" src="{{ asset('js/map.js') }}"></script>
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key={{ env('MAPS_API_KEY') }}&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key={{ env('MAPS_API_KEY') }}&callback=init">
     </script>
 @endsection
