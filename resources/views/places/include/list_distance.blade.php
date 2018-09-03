@@ -1,10 +1,14 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">#</th>
-        <th scope="col">Address</th>
-        <th scope="col">Distance, kms</th>
-        <th scope="col"></th>
+        <th>#</th>
+        <td>
+            <a href='{{ route('places.edit', ['place' => $place->id]) }}'>
+                {{ $place->address }}
+            </a>
+        </td>
+        <th>Distance, kms</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>

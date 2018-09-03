@@ -11,8 +11,12 @@
     <tbody>
     @foreach ($places as $place)
         <tr>
-            <th scope="row">{{ $place->id }}</th>
-            <td>{{ $place->address }}</td>
+            <th>{{ $place->id }}</th>
+            <td>
+                <a href='{{ route('places.edit', ['place' => $place->id]) }}'>
+                    {{ $place->address }}
+                </a>
+            </td>
             <td>{{ $place->lat }}</td>
             <td>{{ $place->lng }}</td>
             <td>

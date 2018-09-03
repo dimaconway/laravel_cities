@@ -103,13 +103,15 @@ class PlacesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      *
-     * @return Response
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
-        //
+        return view('places.edit', [
+            'place' => Place::whereKey($id)->first(),
+        ]);
     }
 
     /**
@@ -120,9 +122,17 @@ class PlacesController extends Controller
      *
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): Response
     {
-        //
+        $place = (new Place)->find($id);
+        $place->address = $request->input(Place::ADDRESS);
+        $place->lat = $request->input(Place::LATITUDE);
+        $place->lng = $request->input(Place::LONGITUDE);
+        $place->save();
+
+        return redirect()
+            ->route('places.index')
+            ->with('success', 'Place ' . $place->address . ' has been updated');
     }
 
     /**
