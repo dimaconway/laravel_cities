@@ -100,7 +100,7 @@ class PlacesController extends Controller
 
         return redirect()->route('places.show', [
             'place' => $place,
-        ]);
+        ])->with('success', 'Place ' . $place->address . ' has been created');
     }
 
     /**
@@ -175,7 +175,7 @@ class PlacesController extends Controller
 
         return redirect()->route('places.show', [
             'place' => $place,
-        ])->with('success', 'Place have been updated');
+        ])->with('success', 'Place has been updated');
     }
 
     /**
