@@ -114,7 +114,7 @@ class PlacesController extends Controller
             Place::ADDRESS   => 'required|string',
             Place::LATITUDE  => [
                 'required',
-                'regex:/^-?(80|[1-7]?[0-9]|0+)(\.\d*)?$/',
+                'regex:/^-?(90|[1-8]?[0-9]|0+)(\.\d*)?$/',
             ],
             Place::LONGITUDE => [
                 'required',
