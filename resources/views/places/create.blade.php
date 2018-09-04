@@ -54,7 +54,7 @@
                    value='{{ old($lngInputName) }}'>
         </div>
 
-        <button id='submit-button' type="submit" class="btn btn-primary btn-block mb-3">Create</button>
+        <button id='submit-button' type="submit" class="btn btn-success btn-block btn-lg mb-3">Create</button>
 
         <div id="map"></div>
     </form>

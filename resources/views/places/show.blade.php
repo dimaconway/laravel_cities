@@ -2,6 +2,12 @@
 @section('title', 'Show Place ' . $place->address)
 
 @section('content')
+    @if (session()->has('success'))
+        <div class="alert alert-success" role='alert'>
+            {{ session()->get('success') }}
+        </div>
+    @endif
+
     <div class="input-group mb-3">
         <input type="text"
                class="form-control"
@@ -32,11 +38,48 @@
                value='{{ $place->lng }}'>
     </div>
 
-    <a class="btn btn-primary btn-block mb-3"
-       href="{{ route('places.edit', ['place' => $place->id]) }}"
-       role="button">Edit</a>
+    <div class="row mb-3">
+        <div class="col">
+            <a class="btn btn-primary btn-block btn-lg"
+               href="{{ route('places.edit', ['place' => $place->id]) }}"
+               role="button">Edit</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-danger text-white btn-block btn-lg delete-place"
+               data-url='{{ route('places.destroy', ['place' => $place->id]) }}'
+               data-place-address='{{ $place->address }}'
+               role="button">Delete</a>
+        </div>
+    </div>
+
+
 
     <div id="map"></div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-place').click(function (e) {
+                let placeAddress = $(e.target).closest('.delete-place').data('place-address');
+                if (confirm('Delete Place ' + placeAddress + '?')) {
+                    let url = $(e.target).closest('.delete-place').data('url');
+
+                    $.ajax(url, {
+                        type   : 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }).done(function (data) {
+                        let result = $.parseJSON(data);
+                        alert(result['message']);
+                        location.replace(result.url);
+                    }).fail(function () {
+                        alert('Something went wrong');
+                    });
+                }
+            });
+        })
+    </script>
 
     <script type="text/javascript" src="{{ asset('js/map.js') }}"></script>
     <script async defer

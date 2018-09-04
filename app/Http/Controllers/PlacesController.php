@@ -175,7 +175,7 @@ class PlacesController extends Controller
 
         return redirect()->route('places.show', [
             'place' => $place,
-        ]);
+        ])->with('success', 'Place have been updated');
     }
 
     /**
@@ -188,13 +188,17 @@ class PlacesController extends Controller
     public function destroy($id): string
     {
         $place = (new Place)->find($id);
+        $message = 'Place ' . $place->address . ' has been deleted';
         try {
             $place->delete();
         } catch (\Exception $e) {
-            return 'Error while deleting Place ' . $place->address . ':' . PHP_EOL
+            $message = 'Error while deleting Place ' . $place->address . ':' . PHP_EOL
                 . $e->getMessage();
         }
 
-        return 'Place ' . $place->address . ' has been deleted';
+        return json_encode([
+            'message' => $message,
+            'url'     => route('places.index'),
+        ]);
     }
 }

@@ -21,6 +21,7 @@
             <td>
                 <button type="button"
                         data-url='{{ route('places.destroy', ['place' => $place->id]) }}'
+                        data-place-address='{{ $place->address }}'
                         class="close text-danger delete-place"
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>

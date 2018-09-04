@@ -55,7 +55,7 @@
                    value='{{ old($lngInputName, $place->lng) }}'>
         </div>
 
-        <button id='submit-button' type="submit" class="btn btn-primary btn-block mb-3">>Save</button>
+        <button id='submit-button' type="submit" class="btn btn-success btn-block btn-lg mb-3">Save</button>
 
         <div id="map"></div>
     </form>

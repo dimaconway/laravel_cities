@@ -48,19 +48,23 @@
             });
 
             $('button.delete-place').click(function (e) {
-                let url = $(e.target).closest('.delete-place').data('url');
+                let placeAddress = $(e.target).closest('.delete-place').data('place-address');
+                if (confirm('Delete Place ' + placeAddress + '?')) {
+                    let url = $(e.target).closest('.delete-place').data('url');
 
-                $.ajax(url, {
-                    type   : 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                }).done(function (result) {
-                    alert(result);
-                    location.reload();
-                }).fail(function () {
-                    alert('Something went wrong');
-                });
+                    $.ajax(url, {
+                        type   : 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }).done(function (data) {
+                        let result = $.parseJSON(data);
+                        alert(result['message']);
+                        location.replace(result.url);
+                    }).fail(function () {
+                        alert('Something went wrong');
+                    });
+                }
             });
         })
     </script>
