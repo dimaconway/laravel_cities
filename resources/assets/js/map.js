@@ -67,15 +67,11 @@
 
                     $('#latitude').val(Number(cityOptions.center.lat().toFixed(6)));
                     $('#longitude').val(Number(cityOptions.center.lng().toFixed(6)));
-
-                    $('#submit-button').prop("disabled", false);
                 } else {
                     map.setOptions(defaultOptions);
 
                     $('#latitude').val('');
                     $('#longitude').val('');
-
-                    $('#submit-button').prop("disabled", true);
                 }
             });
         });

@@ -86,9 +86,12 @@ class PlacesController extends Controller
      * @param  \Illuminate\Http\Request $request
      *
      * @return Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): Response
     {
+        $this->validateRequest($request);
+
         $place = new Place;
         $place->address = $request->post(Place::ADDRESS);
         $place->lat = $request->post(Place::LATITUDE);
@@ -98,6 +101,29 @@ class PlacesController extends Controller
         return redirect()->route('places.show', [
             'place' => $place,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    private function validateRequest(Request $request): void
+    {
+        \Validator::make($request->all(), [
+            Place::ADDRESS   => 'required|string',
+            Place::LATITUDE  => [
+                'required',
+                'regex:/^-?(80|[1-7]?[0-9]|0+)(\.\d*)?$/',
+            ],
+            Place::LONGITUDE => [
+                'required',
+                'regex:/^-?(180|1[0-7][0-9]|[1-9]?[0-9]|0+)(\.\d*)?$/',
+            ],
+        ])->setAttributeNames([
+            Place::LATITUDE  => 'Latitude',
+            Place::LONGITUDE => 'Longitude',
+        ])->validate();
     }
 
     /**
@@ -135,9 +161,12 @@ class PlacesController extends Controller
      * @param  int                      $id
      *
      * @return Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, int $id): Response
     {
+        $this->validateRequest($request);
+
         $place = (new Place)->find($id);
         $place->address = $request->input(Place::ADDRESS);
         $place->lat = $request->input(Place::LATITUDE);
