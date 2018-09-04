@@ -28,6 +28,11 @@
                         </option>
                     @endforeach;
                 </select>
+                @if(Request::has($requestKey))
+                    <div class="input-group-append">
+                        <a href='{{ route('places.index') }}' class="btn btn-primary">Clear filter</a>
+                    </div>
+                @endif
             </div>
         </form>
     </div>
